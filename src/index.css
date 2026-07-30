@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-playfair: "Playfair Display", ui-serif, Georgia, serif;
+
+  --color-bone: #f6f4ef;
+  --color-bone-dim: #ece9e1;
+  --color-ink: #14120f;
+  --color-ink-soft: #57534a;
+  --color-ink-faint: #8b867b;
+  --color-amber: #d97b2e;
+  --color-amber-soft: #f0c893;
+  --color-line: #ddd8cd;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: light;
+    scroll-padding-top: 5rem;
+  }
+
+  .font-playfair {
+    font-family: var(--font-playfair);
+  }
+
+  body {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-bone);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Gentle vertical float for hero clips */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Slow Ken Burns push-in on video content */
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* One-pass amber shine sweeping across the headline */
+@keyframes text-shine {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Drifting aurora blobs behind the closing CTA band */
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 5%, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float-slow {
+    animation: float-y 6s ease-in-out infinite;
+  }
+  .float-slower {
+    animation: float-y 8.5s ease-in-out infinite;
+  }
+  .kenburns video {
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+  .text-shine {
+    background: linear-gradient(
+      110deg,
+      var(--color-ink) 0%,
+      var(--color-ink) 42%,
+      var(--color-amber) 50%,
+      var(--color-ink) 58%,
+      var(--color-ink) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: text-shine 2.6s ease-in-out 0.7s 1 both;
+  }
+  .aurora {
+    animation: aurora-drift 20s ease-in-out infinite;
+  }
+}
+
+/* New hero (RevealHero) load-in animations */
+@keyframes heroReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes heroZoom {
+  0% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.hero-anim {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-reveal {
+  animation-name: heroReveal;
+  animation-duration: 1.1s;
+}
+.hero-fade {
+  animation-name: heroFadeUp;
+  animation-duration: 1s;
+}
+.hero-zoom {
+  animation: heroZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim,
+  .hero-zoom {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Amber hover glow for primary CTAs */
+.btn-glow {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.15s ease;
+}
+.btn-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(217, 123, 46, 0.35),
+    0 10px 34px -8px rgba(217, 123, 46, 0.55);
+}
+.btn-glow:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
