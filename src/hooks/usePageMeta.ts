@@ -12,6 +12,14 @@ export function usePageMeta({ title, description, jsonLd }: PageMeta) {
   const jsonLdKey = jsonLd ? JSON.stringify(jsonLd) : ""
 
   useEffect(() => {
+    // The build prerenders JSON-LD into the served HTML so crawlers see schema
+    // without running JS (prerender/vite-plugin-aeo-prerender.mjs). Once we
+    // mount, this hook owns it again — drop the static copy so the two never
+    // coexist.
+    document.head
+      .querySelectorAll("script[type='application/ld+json'][data-aeo-prerender]")
+      .forEach((s) => s.remove())
+
     const prevTitle = document.title
     document.title = title
 
