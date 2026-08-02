@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://neuvision.xyz/#organization",
+      "name": "Neuvision",
+      "url": "https://neuvision.xyz",
+      "description": "Neuvision generates AI TVC, film, and UGC in variants, tests them against real audiences, and scales the one that wins."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://neuvision.xyz/#website",
+      "url": "https://neuvision.xyz",
+      "name": "Neuvision",
+      "publisher": {
+        "@id": "https://neuvision.xyz/#organization"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "AI TVC",
+      "description": "Broadcast-polish commercials built to look professionally produced, with the brand front and centre. Suited to launches and categories where trust is the barrier to purchase.",
+      "provider": {
+        "@id": "https://neuvision.xyz/#organization"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "AI Film",
+      "description": "Brand film where the product sits inside a mood, a world, a feeling, rather than being announced. Asks a few extra seconds of patience from the viewer.",
+      "provider": {
+        "@id": "https://neuvision.xyz/#organization"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "AI UGC",
+      "description": "Briefed and graded to look unpolished and specific rather than generic. The format that tests fastest and cheapest, and the best first move in a batch.",
+      "provider": {
+        "@id": "https://neuvision.xyz/#organization"
+      }
+    }
+  ]
+}
