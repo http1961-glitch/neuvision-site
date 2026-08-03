@@ -38,6 +38,24 @@ export function WorkGallery({ preview = false }: { preview?: boolean }) {
           <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-ink md:text-5xl">
             {preview ? "Selected work" : "All work"}
           </h2>
+          {!preview && (
+            <div className="mt-5 max-w-2xl space-y-4">
+              <p className="font-body text-base leading-relaxed text-ink-soft">
+                Selected productions across AI TVC, film, and UGC. Every piece
+                here came out of the same method: we generate a batch of cuts
+                from a single brief, test them against real audiences, and scale
+                only what the data backs — so nothing on this page is a single
+                bet we hoped would land.
+              </p>
+              <p className="font-body text-base leading-relaxed text-ink-soft">
+                The work spans formats on purpose — broadcast-style commercials
+                where the brand is the hero, cinematic films where the product
+                lives inside a mood, and creator-style UGC built to read as
+                authentic in a feed. Concept pieces are labelled as such; we
+                don't dress up demos as delivered campaigns.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-2">

@@ -6,7 +6,10 @@
       "@id": "https://neuvision.xyz/#organization",
       "name": "Neuvision",
       "url": "https://neuvision.xyz",
-      "description": "Neuvision generates AI TVC, film, and UGC in variants, tests them against real audiences, and scales the one that wins."
+      "description": "Neuvision generates AI TVC, film, and UGC in variants, tests them against real audiences, and scales the one that wins.",
+      "sameAs": [
+        "https://www.instagram.com/neuvision.xyz/"
+      ]
     },
     {
       "@type": "WebSite",
