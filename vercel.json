@@ -1,9 +1,9 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.neuvision.xyz" }],
-      "destination": "https://neuvision.xyz/:path*",
+      "destination": "https://neuvision.xyz/$1",
       "permanent": true
     }
   ],
