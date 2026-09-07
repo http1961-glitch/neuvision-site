@@ -500,7 +500,7 @@ export function HomeCinematic() {
           </div>
           <footer className="footer">
             <span>NEUVISION © 2026</span>
-            <span>Kuala Lumpur · Available worldwide</span>
+            <span>Singapore · Available worldwide</span>
             <span><Link to="/work">Work</Link> · <Link to="/blog">Blog</Link> · <a href="mailto:build@neuvision.xyz">build@neuvision.xyz</a></span>
           </footer>
         </section>
