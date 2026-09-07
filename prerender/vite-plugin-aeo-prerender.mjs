@@ -85,6 +85,28 @@ function injectHead(html, { title, description, jsonLd, canonical }) {
 const escapeHtml = (s) => String(s ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/**
+ * Browser launch options. Locally, Playwright's own Chromium is used. On
+ * Vercel (Amazon Linux build image, no Chromium system libraries) we fall
+ * back to @sparticuz/chromium, a self-contained Lambda-compatible build.
+ */
+async function launchOptions(ctx) {
+  const onVercel = !!process.env.VERCEL || !!process.env.AEO_USE_SPARTICUZ;
+  if (!onVercel) return {};
+  try {
+    const mod = await import('@sparticuz/chromium');
+    const sparticuz = mod.default ?? mod;
+    return {
+      executablePath: await sparticuz.executablePath(),
+      args: sparticuz.args,
+      headless: true,
+    };
+  } catch (err) {
+    ctx.warn(`aeo-prerender: @sparticuz/chromium unavailable (${err.message}), using default Chromium`);
+    return {};
+  }
+}
+
 export function aeoPrerender(options = {}) {
   const {
     routes = ['/'],
@@ -130,14 +152,27 @@ export function aeoPrerender(options = {}) {
       }
 
       const { server, port } = await serveDist(distDir);
-      const browser = await chromium.launch();
+      let browser;
+      try {
+        browser = await chromium.launch(await launchOptions(this));
+      } catch (err) {
+        // A missing/broken browser must not block shipping the site: the SPA
+        // shell still works, it just loses the prerendered HTML until fixed.
+        server.close();
+        this.warn(`aeo-prerender: could not launch Chromium, skipping prerender — ${err.message.split('\n')[0]}`);
+        return;
+      }
       const page = await browser.newPage();
       const shell = await readFile(join(distDir, 'index.html'), 'utf8');
       let done = 0;
 
       for (const route of routes) {
         try {
-          await page.goto(`http://127.0.0.1:${port}${route}`, { waitUntil: 'networkidle', timeout: 30000 });
+          // Wait for the document itself, then give the network a bounded
+          // chance to go quiet. Video tiles can keep streaming, so a page that
+          // never reaches "networkidle" must still be rendered, not skipped.
+          await page.goto(`http://127.0.0.1:${port}${route}`, { waitUntil: 'load', timeout: 60000 });
+          await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
           await page.waitForTimeout(settleMs);
 
           const data = await page.evaluate((sel) => ({
