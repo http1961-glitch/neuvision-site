@@ -163,6 +163,10 @@ export function aeoPrerender(options = {}) {
         return;
       }
       const page = await browser.newPage();
+      // Video is never part of the prerendered markup, and a <video> that the
+      // build browser cannot decode (no H.264 in Lambda Chromium) holds the
+      // page's load event open until the navigation times out. Abort them.
+      await page.route(/\.(mp4|webm|mov|m4v)(\?.*)?$/i, (r) => r.abort());
       const shell = await readFile(join(distDir, 'index.html'), 'utf8');
       let done = 0;
 
