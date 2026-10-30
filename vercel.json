@@ -2,10 +2,33 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.neuvision.xyz" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.neuvision.xyz"
+        }
+      ],
       "destination": "https://neuvision.xyz/$1",
       "permanent": true
+    },
+    {
+      "source": "/automation",
+      "destination": "/business-automation",
+      "permanent": false
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/business-automation",
+      "destination": "https://creatorsdesk-automate.vercel.app/business-automation"
+    },
+    {
+      "source": "/business-automation/:path*",
+      "destination": "https://creatorsdesk-automate.vercel.app/business-automation/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
